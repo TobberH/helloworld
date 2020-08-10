@@ -5,8 +5,8 @@ import time
 
 #print(len(sys.argv))
 def sleep(secs):
-    #print("Waiting: " + str(secs))
-    time.sleep(int(secs))
+    #print("Waiting: " + str(secs) + " secs...")
+    time.sleep(secs)
     return
 
 def help():
@@ -19,28 +19,33 @@ if len(sys.argv) > 1:
     s = sys.argv[1]
     if s == "--help":
        help()
-       
-    if str(s).isdigit():
-        #print("Waiting: " + str(s))
-        time.sleep(int(s))
-    else:
+
+    try:
+        s = float(s)
+        sleep(s)
+        
+    except:
+        s = s.lower()
         r = s[-1]
         #print("Rightmost: " + r)
         s = s[0:-1]
-        if str(s).isdigit():
+        
+        try:
+            s = float(s)
             if r == "m":
                 #print("Minutes")
-                s = int(s) * 60
+                s = s * 60
             if r == "h":
                 #print("Hours")
-                s = int(s) * 60 * 60
+                s = s * 60 * 60
             if r == "d":
                 #print("Days")
-                s = int(s) * 60 * 60 * 24
+                s = s * 60 * 60 * 24
             
             sleep(s)
-        else:
-            print("Invalid input: " + str(s))
+            
+        except:
+            print("Invalid input: " + str(sys.argv[1]))
             help()
 else:
     print("No args!")
